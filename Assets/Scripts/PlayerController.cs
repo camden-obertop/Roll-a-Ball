@@ -54,7 +54,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Pick Up"))
         {            
-            Instantiate(pickupSound);
+            GameObject sound = Instantiate(pickupSound);
+            StartCoroutine(DestroySound(sound));
             other.gameObject.transform.parent.gameObject.SetActive(false);
             _count++;
             SetCountText();
@@ -66,10 +67,17 @@ public class PlayerController : MonoBehaviour
         countText.text = "Count: " + _count.ToString();
         if (_count >= 14)
         {
-            Instantiate(beatLevelSound);
+            GameObject sound = Instantiate(beatLevelSound);
+            StartCoroutine(DestroySound(sound));
             winText.text = "You Win!";
             _hasWon = true;
         }
+    }
+
+    IEnumerator DestroySound(GameObject soundGameObject)
+    {
+        yield return new WaitForSeconds(1.5f);
+        Destroy(soundGameObject);
     }
 
     private void UpdateTimerUI()
