@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Pick Up
+  - Vision Radius
   layers:
   - Default
   - TransparentFX
