@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+
+        CheckOutOfBounds();
+        
         if (!_hasWon)
         {
             UpdateTimerUI();
@@ -95,6 +98,14 @@ public class PlayerController : MonoBehaviour
         {
             _minutesCount++;
             _secondsCount = 0;
+        }
+    }
+
+    private void CheckOutOfBounds()
+    {
+        if (transform.position.y <= -1)
+        {
+            transform.position = new Vector3(0, 10, 0);
         }
     }
 }
