@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public Text timerText;
     public GameObject pickupSound;
     public GameObject beatLevelSound;
+    public GameObject pickups;
 
     private Rigidbody _rb;
     private int _count = 0;
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private float _secondsCount;
     private int _minutesCount;
     private bool _hasWon = false;
+    private int _pickupCount;
     
     private void Start()
     {
@@ -31,26 +33,15 @@ public class PlayerController : MonoBehaviour
     {
 
         CheckOutOfBounds();
-        
-        if (!_hasWon)
-        {
-            UpdateTimerUI();
-            
-            float moveHorizontal = Input.GetAxis("Horizontal");
-            float moveVertical = Input.GetAxis("Vertical");
-
-            _movement = new Vector3(moveHorizontal, 0, moveVertical);
-        }
-        else
-        {
-            _movement = Vector3.up * speed;
-        }
 
     }
 
     private void FixedUpdate()
     {
-        _rb.AddForce(_movement * speed);
+        if (_hasWon)
+        {
+            _rb.AddForce(Vector3.up * speed);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -68,7 +59,7 @@ public class PlayerController : MonoBehaviour
     private void SetCountText()
     {
         countText.text = "Count: " + _count.ToString();
-        if (_count >= 14)
+        if (_count >= pickups.transform.childCount)
         {
             GameObject sound = Instantiate(beatLevelSound);
             StartCoroutine(DestroySound(sound));
